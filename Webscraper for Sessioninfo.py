@@ -196,7 +196,11 @@ Thread(target=flag_led).start()
     
     # UPLOAD GITHUB
     # after ENDTIME -> change LED back to White (standart) TEST RUN !!!!!!!
+    # Automatic start of python script when booted
 
+    # Arduino connection 
+        #ttyUSB0
+        
 # DONE:
     # maybe kill / start threats according to session started
     # start looking bei Uhrzeit wenn renen anfängt - 5 min
