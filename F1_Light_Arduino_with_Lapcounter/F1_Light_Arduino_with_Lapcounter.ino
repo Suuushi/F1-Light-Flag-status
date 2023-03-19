@@ -22,7 +22,7 @@ void setup() {
   yellow = strip.Color(255, 255, 0);
   green = strip.Color(0, 255, 0);
   white = strip.Color(255, 255, 255);
-  red = strip.Color(255, 0, 0);             // Initialize all pixels 'off'
+  red = strip.Color(255, 0, 0);            
   strip.setBrightness((255 * brightness));  // 0 - 255
 }
 
