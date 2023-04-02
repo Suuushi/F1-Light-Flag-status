@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import presence_of_element_located
 import time
 import sys
+import time
+import datetime
 from datetime import datetime
 #from time import sleep
 from threading import Thread
@@ -24,43 +26,59 @@ webdriver = webdriver.Chrome(
     executable_path=chrome_driver_path, options=chrome_options
 )
 
-url = "https://f1.tfeed.net/2022/suzuka"
+url = "https://f1.tfeed.net/live"
 
 webdriver.get(url)
 time.sleep(7)
 
-# def A():
-#     while True:
-#         Flag = webdriver.execute_script('return sessionFlag')
-#         session_started= webdriver.execute_script('return sessionStarted')
-#         session_finished = webdriver.execute_script('return sessionFinished')
-#         print(Flag)
-#         print(session_finished)
-#         print(session_started)
-#         print()
-#         time.sleep(10)
 
-# A()
+current_timestamp = round(time.time())
+year_calendar = webdriver.execute_script('return calendar')
+next_event = webdriver.execute_script('return calendarNextEvent')
+race_number = str(year_calendar[next_event])
+next_event_timestamp = (webdriver.execute_script(
+    'return calendarNextEventTimestamp'))/1000
+filename = "Race %s.txt" % race_number
 
-# element = webdriver.find_element(By.ID, "replay_laps_select")
-# all_options = element.find_elements(By.TAG_NAME, "option")
-# for option in all_options:
-#     print("Value is: %s" % option.get_attribute("value"))
-#     option.click()
+next_date = year_calendar[next_event+1]
+next_time = year_calendar[next_event+2]
 
-from selenium.webdriver.support.ui import Select
-select = Select(webdriver.find_element(By.ID, 'replay_laps_select'))
-select.select_by_index(1)
+next_time_stamp = f'{next_date} {next_time}'
+TT = datetime.strptime(next_time_stamp, '%d/%m/%Y %H:%M')
+time_stamp = TT.timestamp()-3600
+print(time_stamp)
+# - 1H due to Original timestamp is UTC
+# - maybe next Event not changing ? - change manually 
+# if new timestamp > current 
+    # set new timestmap , mextevent
 
-time.sleep(5)
+#FUKNTIONIERT:
+    # next_date = str(year_calendar[next_event+1])
+    # next_time = str(year_calendar[next_event+2])
 
-Flag = webdriver.execute_script('return sessionFlag')
-session_started= webdriver.execute_script('return sessionStarted')
-session_finished = webdriver.execute_script('return sessionFinished')
-print(Flag)
-print(session_finished)
-print(session_started)
-print()
+    # next_time_stamp = f'{next_date} {next_time}'
+    # TT = datetime.strptime(next_time_stamp, '%d/%m/%Y %H:%M')
+    # time_stamp = TT.timestamp()
+    # print(time_stamp)
+    # # - 1H 
 
-# select.select_by_visible_text("text")
-# select.select_by_value(value)
+
+
+
+
+# element = datetime.strptime(next_time_stamp,"%d/%m/%Y")
+ 
+# timestamp = datetime.timestamp(element)
+# print(timestamp)
+
+
+
+# if next_event_timestamp < current_timestamp:
+#     next_event_timestamp 
+#     time.sleep(5)
+
+#                 filename, next_event_timestamp = session_info() 
+
+#                 if (next_event_timestamp - request_beginn_delay) <= current_timestamp:  # -request_beginn_delay
+
+time.sleep(50)
